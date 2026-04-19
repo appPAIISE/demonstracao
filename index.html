@@ -385,6 +385,72 @@
       .hero-actions { flex-direction: column; gap: 20px; }
       .btn-main { width: 100%; }
     }
+
+    /* =========================================
+       BOTÃO FLUTUANTE DO APLICATIVO
+       ========================================= */
+    .floating-app-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: linear-gradient(135deg, var(--primary), #b20710);
+      color: #ffffff;
+      padding: 14px 24px;
+      border-radius: 50px; /* Formato de pílula */
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+      z-index: 9000; /* Fica acima de tudo, mas abaixo do pop-up de pagamento (99999) */
+      box-shadow: 0 8px 25px rgba(229, 9, 20, 0.4);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      animation: pulseGlow 2.5s infinite;
+    }
+
+    .floating-icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    /* Efeito ao passar o mouse: Para de pulsar, cresce e brilha mais */
+    .floating-app-btn:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 15px 35px rgba(229, 9, 20, 0.7);
+      animation-play-state: paused; 
+    }
+
+    /* Animação que chama a atenção na tela */
+    @keyframes pulseGlow {
+      0% {
+        box-shadow: 0 0 0 0 rgba(229, 9, 20, 0.6);
+        transform: translateY(0);
+      }
+      50% {
+        box-shadow: 0 0 0 15px rgba(229, 9, 20, 0);
+        transform: translateY(-3px); /* Flutua de leve */
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(229, 9, 20, 0);
+        transform: translateY(0);
+      }
+    }
+
+    /* Ajuste para celulares (Fica um pouco menor e ajusta a posição) */
+    @media (max-width: 768px) {
+      .floating-app-btn {
+        bottom: 20px;
+        right: 20px;
+        padding: 12px 20px;
+        font-size: 0.9rem;
+      }
+      .floating-icon {
+        width: 18px;
+        height: 18px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -449,10 +515,10 @@
 
   <div class="paywall-overlay" id="paywall">
     <div class="paywall-card">
-      <span class="card-header">OFERTA ESPECIAL</span>
+      <span class="card-header">Cancele no "SEXTO DIA" se não gostar.</span>
       <img src="paiise.png" alt="Experiência Premium" class="paywall-image" />
       <h2>A experiência completa te aguarda</h2>
-      <p>Libere agora o seu acesso e seja o primeiro a assistir. Tenha acesso a todas as plataformas, canais e filmes sem interrupções e em altíssima qualidade.</p>
+      <p>Libere agora o acesso vitalício a todas as plataformas, canais e filmes sem interrupções e em altíssima qualidade.</p>
       
       <div class="paywall-actions">
         <a href="https://pay.kirvano.com/64d2f1df-3435-4e01-bbdf-8b591841e0dd?aff=e07842fc-6bae-41cb-a4af-9c8dc0f4a6fe" class="btn-buy-now" target="_blank" rel="noopener noreferrer">Acessar oferta</a>
@@ -503,6 +569,12 @@
       }, DEMO_DURATION);
     }
   </script>
-
+<a href="COLOQUE_SEU_LINK_AQUI" target="_blank" rel="noopener noreferrer" class="floating-app-btn">
+    <svg class="floating-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17 1H7C5.89543 1 5 1.89543 5 3V21C5 22.1046 5.89543 23 7 23H17C18.1046 23 19 22.1046 19 21V3C19 1.89543 18.1046 1 17 1Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M12 18H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="floating-text">Ver o aplicativo agora</span>
+  </a>
 </body>
 </html>
