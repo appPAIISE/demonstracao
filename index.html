@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#000000" />
-  <title>PAIISE | O melhor streaming do país</title>
+  <title>PAIISE | O MELHOR STREAMING DO BRASIL.</title>
   <link rel="icon" type="image/png" href="logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,7 +43,7 @@
     }
 
     body.modal-open {
-      overflow: hidden; /* Trava o scroll quando o popup abre */
+      overflow: hidden; 
     }
 
     a, button { -webkit-tap-highlight-color: transparent; }
@@ -129,7 +129,7 @@
     }
 
     /* =========================================
-       PLAYER WRAPPER
+       PLAYER WRAPPER E MÁSCARA DO DRIVE
        ========================================= */
     .player-wrapper {
       position: relative;
@@ -141,6 +141,17 @@
       margin-bottom: 50px;
       overflow: hidden;
       box-shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.05);
+    }
+
+    /* ESTA É A MÁSCARA QUE BLOQUEIA O BOTÃO NO CANTO SUPERIOR DIREITO */
+    .mascara-botao-drive {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 70px;  
+      height: 70px; 
+      background: transparent; 
+      z-index: 99;  
     }
 
     .drive-iframe {
@@ -220,7 +231,7 @@
       background: rgba(0,0,0,0.85);
       backdrop-filter: blur(15px);
       -webkit-backdrop-filter: blur(15px);
-      display: none; /* Controlado via JS */
+      display: none; 
       align-items: center;
       justify-content: center;
       z-index: 99999;
@@ -253,7 +264,6 @@
       display: block;
     }
 
-    /* NOVO: Estilo da imagem do pop-up adicionada cirurgicamente */
     .paywall-image {
       width: 100%;
       height: 180px;
@@ -391,7 +401,10 @@
       <h1 class="hero-headline">O melhor streaming do país.<br>Assista tudo em um só lugar.</h1>
       
       <div class="player-wrapper" id="main-player">
-        <iframe class="drive-iframe" src="https://drive.google.com/file/d/1hTesXfSzzWZze_qC3XP5OHMVQWAMdVvD/preview" allow="autoplay; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        
+        <div class="mascara-botao-drive"></div>
+
+        <iframe class="drive-iframe" src="https://drive.google.com/file/d/1Q62SO7AsBE6MqG8Rm3CCjWsvFANJlmWg/preview" allow="autoplay; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
       </div>
 
       <div class="hero-actions">
@@ -437,7 +450,7 @@
   <div class="paywall-overlay" id="paywall">
     <div class="paywall-card">
       <span class="card-header">OFERTA ESPECIAL</span>
-      <img src="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Experiência Premium" class="paywall-image" />
+      <img src="paiise.png" alt="Experiência Premium" class="paywall-image" />
       <h2>A experiência completa te aguarda</h2>
       <p>Libere agora o acesso vitalício a todas as plataformas, canais e filmes sem interrupções e em altíssima qualidade.</p>
       
@@ -449,7 +462,6 @@
   </div>
 
   <script>
-    // LÓGICA RESTAURADA EXATAMENTE COMO NO CÓDIGO ORIGINAL
     const paywall = document.getElementById('paywall');
     const mainPlayer = document.getElementById('main-player');
     let temporizadorBloqueio;
@@ -458,19 +470,16 @@
     const DEMO_DURATION = 300000; 
 
     function startExperience() {
-      // 1. Rola a tela suavemente para o player de vídeo
       if (mainPlayer) {
         mainPlayer.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
       
-      // 2. Segurança: Verifica se o usuário já esgotou o tempo em sessões anteriores (Proteção contra F5)
       const hasUsedDemo = localStorage.getItem('paiise_demo_locked');
       if (hasUsedDemo === 'true') {
         triggerPaywall();
-        return; // Para a execução, o tempo dele já acabou.
+        return; 
       }
       
-      // 3. Inicia a contagem de 5 minutos
       clearTimeout(temporizadorBloqueio);
       temporizadorBloqueio = setTimeout(() => {
         triggerPaywall();
@@ -478,20 +487,16 @@
     }
 
     function triggerPaywall() {
-      // Exibe o popup e trava a tela
       paywall.style.display = 'flex';
       document.body.classList.add('modal-open');
       
-      // Grava no navegador que o tempo acabou
       localStorage.setItem('paiise_demo_locked', 'true');
     }
 
     function resumeVideo() {
-      // Esconde o popup e destrava a tela
       paywall.style.display = 'none';
       document.body.classList.remove('modal-open');
       
-      // Reinicia o ciclo (se a regra de negócio permitir que ele continue clicando em "Continuar")
       clearTimeout(temporizadorBloqueio);
       temporizadorBloqueio = setTimeout(() => {
         triggerPaywall();
